@@ -10,5 +10,12 @@ namespace Wba.WebFoods.Core.Entities
     {
         public string Description { get; set; }
         public decimal Price { get; set; }
+        //one to many
+        public Category Category { get; set; }
+        //unshadowed foreign key property
+        public int? CategoryId { get; set; }
+        //many to many
+        public ICollection<Property> Properties { get; set; }
+        public ICollection<OrderLine> Orders { get; set; }
     }
 }

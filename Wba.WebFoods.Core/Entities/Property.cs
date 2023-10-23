@@ -8,6 +8,6 @@ namespace Wba.WebFoods.Core.Entities
 {
     public class Property : BaseEntity
     {
-        
+        public ICollection<Product> Products { get; set; }
     }
 }

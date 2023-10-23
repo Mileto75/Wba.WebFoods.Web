@@ -11,8 +11,8 @@ using Wba.WebFoods.Web.Data;
 namespace Wba.WebFoods.Web.Migrations
 {
     [DbContext(typeof(WebFoodsDbContext))]
-    [Migration("20231023075510_First")]
-    partial class First
+    [Migration("20231023085807_AddPropertiesRelation")]
+    partial class AddPropertiesRelation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,21 @@ namespace Wba.WebFoods.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ProductProperty", b =>
+                {
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PropertiesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsId", "PropertiesId");
+
+                    b.HasIndex("PropertiesId");
+
+                    b.ToTable("ProductProperty");
+                });
 
             modelBuilder.Entity("Wba.WebFoods.Core.Entities.Category", b =>
                 {
@@ -47,6 +62,9 @@ namespace Wba.WebFoods.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -57,6 +75,8 @@ namespace Wba.WebFoods.Web.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -75,6 +95,37 @@ namespace Wba.WebFoods.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Properties");
+                });
+
+            modelBuilder.Entity("ProductProperty", b =>
+                {
+                    b.HasOne("Wba.WebFoods.Core.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Wba.WebFoods.Core.Entities.Property", null)
+                        .WithMany()
+                        .HasForeignKey("PropertiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Wba.WebFoods.Core.Entities.Product", b =>
+                {
+                    b.HasOne("Wba.WebFoods.Core.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Wba.WebFoods.Core.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

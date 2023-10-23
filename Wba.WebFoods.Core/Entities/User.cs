@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace Wba.WebFoods.Core.Entities
 {
-    public abstract class BaseEntity
+    public class User
     {
         public int Id { get; set; }
-    
-        public string Name { get; set; }
+        [Required]
+        public string FirstName{ get; set; }
+        [Required]
+        public string LastName{ get; set; }
+        //many to many
+        public ICollection<OrderLine> Orders { get; set; }
     }
 }
