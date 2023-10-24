@@ -41,6 +41,26 @@ namespace Wba.WebFoods.Web.Data.Seeding
                 new Product{Id = 7, Name = "Millefoglie au frutti di bosco",Price=14.80M, CategoryId = 4,Description = "Vegan woodfruit"},
                 new Product{Id = 8, Name = "Tartufo all'amaro",Price=12.80M, CategoryId = 4,Description = "Chocolate and alcohol"},
             };
+            //productProperties table
+            var productProperties = new[]
+            {
+                new { ProductsId = 1, PropertiesId = 1 },
+                new { ProductsId = 1, PropertiesId = 2 },
+                new { ProductsId = 2, PropertiesId = 3 },                
+                new { ProductsId = 2, PropertiesId = 2 },
+                new { ProductsId = 3, PropertiesId = 3 },
+                new { ProductsId = 3, PropertiesId = 4 },
+                new { ProductsId = 3, PropertiesId = 5 },
+            };
+            //put seeding data in database
+            //use the entity<>().HasData method
+            //mind the order/sequence
+            modelBuilder.Entity<Category>().HasData(categories);
+            modelBuilder.Entity<Property>().HasData(properties);
+            modelBuilder.Entity<Product>().HasData(products);
+            //the many to many table ProductProperties
+            modelBuilder.Entity($"{nameof(Product)}{nameof(Property)}")
+                .HasData(productProperties);
         }
     }
 }
