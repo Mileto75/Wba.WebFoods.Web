@@ -32,7 +32,6 @@ namespace Wba.WebFoods.Web.Data
             //custom primary key for many to many
             modelBuilder.Entity<OrderLine>()
                 .HasKey(o => new { o.UserId, o.ProductId });
-      
         }
     }
 }
