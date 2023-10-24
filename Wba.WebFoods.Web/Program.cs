@@ -18,7 +18,7 @@ namespace Wba.WebFoods.Web
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
-
+            builder
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

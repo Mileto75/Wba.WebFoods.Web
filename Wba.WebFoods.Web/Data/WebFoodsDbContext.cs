@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Wba.WebFoods.Core.Entities;
+using Wba.WebFoods.Web.Data.Seeding;
 
 namespace Wba.WebFoods.Web.Data
 {
@@ -32,6 +33,8 @@ namespace Wba.WebFoods.Web.Data
             //custom primary key for many to many
             modelBuilder.Entity<OrderLine>()
                 .HasKey(o => new { o.UserId, o.ProductId });
+            //call the seeder
+            Seeder.Seed(modelBuilder);
         }
     }
 }
